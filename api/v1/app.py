@@ -12,7 +12,8 @@ port = environ.get('HBNB_API_PORT')
 
 app.register_blueprint(app_views)
 
-#app_views = Blueprint('app_views', __name__)
+app.register_blueprint(app_views)
+
 
 
 @app.teardown_appcontext
