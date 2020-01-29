@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Create a basics routes and register the blueprint"""
 from flask import Flask, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
@@ -15,6 +16,7 @@ app.register_blueprint(app_views)
 @app.teardown_appcontext
 def close(Error):
     storage.close()
+
 
 @app.errorhandler(404)
 def not_found(error):

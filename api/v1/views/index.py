@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """start your API"""
-
 from api.v1.views import app_views
 import models
 from models.city import City
