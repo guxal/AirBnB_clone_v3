@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-from api.v1.views import app_views
+from api.v1.views import app_views, index
 from models import storage, state
-from flask import jsonify
+from flask import jsonify, abort
 
 
 @app_views.route('/states/', methods=['GET'])
@@ -15,4 +15,6 @@ def retrieve_obj():
 @app_views.route('states/<state_id>', methods=['GET'])
 def retrieve_obj_id(state_id):
     obj = storage.get('State', state_id)
+    if obj is None:
+        abort(404)
     return jsonify(obj.to_dict())
