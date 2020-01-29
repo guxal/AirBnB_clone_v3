@@ -7,14 +7,14 @@ from flask import jsonify
 import json
 
 
-@app_views.route('/status')
+@app_views.route('/status', strict_slashes=False)
 def json_status():
     """will be to return the status"""
     var = {"status": "OK"}
     return jsonify(var)
 
 
-@app_views.route('/stats')
+@app_views.route('/stats', strict_slashes=False)
 def endpoint_stats():
     """retrieves the number of each objects by type"""
     new_obj = {"amenities": models.storage.count("Amenity"),
