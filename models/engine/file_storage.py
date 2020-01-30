@@ -36,13 +36,9 @@ class FileStorage:
 
     def get(self, cls, id):
         """returns the dictionary cls.all(id)"""
-        #values = list(self.all(cls).values())
-
-        #return [v for v in values if v.id == id]
         for values in list(self.all(cls).values()):
             if values.id == id:
                 return values
-
         return None
 
     def count(self, cls=None):
