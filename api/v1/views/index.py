@@ -24,7 +24,4 @@ def endpoint_stats():
     return jsonify(new_obj)
 
 
-@app_views.route('/nop')
-def errors_404():
-    error = {'error': 'Not found'}
-    return jsonify(error)
+
