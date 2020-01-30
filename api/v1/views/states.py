@@ -48,7 +48,7 @@ def create_state():
         new_state = State(**data)
         storage.new(new_state)
         storage.save()
-    return jsonify(new_state.to_dict()), 201
+    return make_response(jsonify(new_state.to_dict()), 201)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
@@ -68,4 +68,4 @@ def update_state(state_id=None):
             else:
                 setattr(data, key, value)
         storage.save()
-        return jsonify(data.to_dict()), 200
+        return make_response(jsonify(data.to_dict()), 200)
