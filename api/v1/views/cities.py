@@ -7,43 +7,33 @@ from models.city import City
 from flask import jsonify, abort, make_response, request
 
 
-@app_views.route('/cities/', methods=['GET'], strict_slashes=False)
-def all_cities():
-    """list of all City objects"""
-    all_obj = []
-    for obj in storage.all('City').values():
-        all_obj.append(obj.to_dict())
-    return jsonify(all_obj)
-
-
-@app_views.route('states/<state_id>/cities',
-                 methods=['GET'], strict_slashes=False)
+@app_views.route('states/<state_id>/cities', methods=['GET'])
 def state_city_id(state_id):
-    """the state based on the id """
-    obj = storage.get('State', state_id)
-    if obj is None:
+    """ the state based on the id """
+    data = storage.get('State', state_id)
+    if data is None:
         abort(404)
-    return jsonify(obj.to_dict())
+    cities = [city.to_dict() for city in data.cities]
+    return jsonify(cities), 200
 
 
-@app_views.route('cities/<city_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('cities/<city_id>', methods=['GET'])
 def city_id(city_id):
-    """the city based on the id """
-    obj = storage.get('City', city_id)
-    if obj is None:
+    """ the city based on the id """
+    data = storage.get('City', city_id)
+    if data is None:
         abort(404)
-    return jsonify(obj.to_dict())
+    return jsonify(data.to_dict())
 
 
-@app_views.route('cities/<city_id>', methods=['DELETE'],
-                 strict_slashes=False)
+@app_views.route('cities/<city_id>', methods=['DELETE'])
 def delete_city_id(city_id):
     """ funtion to deletes a City for id"""
-    obj = storage.get('City', city_id)
-    if obj is None:
+    data = storage.get('City', city_id)
+    if data is None:
         abort(404)
     else:
-        storage.delete(obj)
+        storage.delete(data)
         storage.save()
     return make_response(jsonify({}), 200)
 
@@ -51,16 +41,17 @@ def delete_city_id(city_id):
 @app_views.route('/cities/<state_id>/cities', methods=['POST'])
 def create_city(state_id):
     """Create new city"""
-    data = request.get_json(silent=True)
-    if data is None:
+    data = storage.get('State', state_id)
+    r = request.get_json(silent=True)
+    if r is None:
         abort(400, "Not a JSON")
-    elif "name" not in data.keys():
+    elif "name" not in r.keys():
         abort(400, "Missing Name")
     else:
-        new_city = City(**data)
+        r['state_id'] = state.id
+        new_city = City(**r)
         storage.new(new_city)
         storage.save()
-        storage.reload()
     return make_response(jsonify(new_city.to_dict()), 201)
 
 
