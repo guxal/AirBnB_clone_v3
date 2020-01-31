@@ -41,7 +41,7 @@ def delete_amenities_id(amenity_id):
 
 @app_views.route('/amenities', methods=['POST'])
 def create_amenity():
-    """Create new city"""
+    """Create new amenity"""
     data = request.get_json(silent=True)
     if data is None:
         abort(404, "Not a JSON")
@@ -55,7 +55,7 @@ def create_amenity():
 
 
 @app_views.route('/amenity/<amenity_id>', methods=['PUT'])
-def update_city(amenity_id=None):
+def update_amenities(amenity_id=None):
     """Update amenity for id"""
     data = storage.get('Amenity', amenity_id)
     if data is None:
