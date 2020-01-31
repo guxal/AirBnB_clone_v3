@@ -7,7 +7,7 @@ from models.amenity import Amenity
 from flask import jsonify, abort, make_response, request
 
 
-@app_views.route('/amenities/', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities', methods=['GET'])
 def all_amenities():
     """list of all Amenities objects"""
     all_obj = []
@@ -16,20 +16,18 @@ def all_amenities():
     return jsonify(all_obj)
 
 
-@app_views.route('amenities/<amenity_id>',
-                 methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['GET'])
 def amenities_id(amenity_id):
-    """the amenity based on the id """
+    """the amenity based on the id"""
     obj = storage.get('Amenity', amenity_id)
     if obj is None:
         abort(404)
     return jsonify(obj.to_dict())
 
 
-@app_views.route('amenities/<amenity_id>', methods=['DELETE'],
-                 strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
 def delete_amenities_id(amenity_id):
-    """ funtion to amenity for id"""
+    """delete to amenity for id"""
     obj = storage.get('Amenity', amenity_id)
     if obj is None:
         abort(404)
@@ -51,11 +49,10 @@ def create_amenity():
         new_amenity = Amenity(**data)
         storage.new(new_amenity)
         storage.save()
-        storage.reload()
     return make_response(jsonify(new_amenity.to_dict()), 201)
 
 
-@app_views.route('/amenity/<amenity_id>', methods=['PUT'])
+@app_views.route('/amenities/<amenity_id>', methods=['PUT'])
 def update_amenities(amenity_id=None):
     """Update amenity for id"""
     data = storage.get('Amenity', amenity_id)
