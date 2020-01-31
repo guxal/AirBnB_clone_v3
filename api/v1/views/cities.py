@@ -37,7 +37,7 @@ def city_id(city_id):
 
 @app_views.route('cities/<city_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_city_id(state_id):
+def delete_city_id(city_id):
     """ funtion to deletes a City for id"""
     obj = storage.get('City', city_id)
     if obj is None:
@@ -60,7 +60,8 @@ def create_city(state_id):
         new_city = City(**data)
         storage.new(new_city)
         storage.save()
-    return make_response(jsonify(new_amenity.to_dict()), 201)
+        storage.reload()
+    return make_response(jsonify(new_city.to_dict()), 201)
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'])
@@ -75,10 +76,9 @@ def update_city(city_id):
         abort(400, "Not a JSON")
     else:
         for key, value in r.items():
-            if key in ['id', 'created_at', 'updated_at']:
+            if key in ['id', 'created_at', 'updated_at', 'state_id']:
                 pass
             else:
                 setattr(data, key, value)
         storage.save()
-        storage.reload()
         return make_response(jsonify(data.to_dict()), 200)
