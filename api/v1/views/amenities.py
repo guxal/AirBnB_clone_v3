@@ -8,7 +8,7 @@ from flask import jsonify, abort, make_response, request
 
 
 @app_views.route('/amenities/', methods=['GET'], strict_slashes=False)
-def retrieve_obj():
+def all_amenities():
     """list of all Amenities objects"""
     all_obj = []
     for obj in storage.all('Amenity').values():
@@ -18,7 +18,7 @@ def retrieve_obj():
 
 @app_views.route('amenities/<amenity_id>',
                  methods=['GET'], strict_slashes=False)
-def retrieve_obj_id(amenity_id):
+def amenities_id(amenity_id):
     """the amenity based on the id """
     obj = storage.get('Amenity', amenity_id)
     if obj is None:
@@ -28,7 +28,7 @@ def retrieve_obj_id(amenity_id):
 
 @app_views.route('amenities/<amenity_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_id(amenity_id):
+def delete_amenities_id(amenity_id):
     """ funtion to amenity for id"""
     obj = storage.get('Amenity', amenity_id)
     if obj is None:
