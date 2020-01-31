@@ -38,7 +38,7 @@ def delete_city_id(city_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/cities/<state_id>/cities', methods=['POST'])
+@app_views.route('/states/<state_id>/cities', methods=['POST'])
 def create_city(state_id):
     """Create new city"""
     data = storage.get('State', state_id)
@@ -48,7 +48,7 @@ def create_city(state_id):
     elif "name" not in r.keys():
         abort(400, "Missing Name")
     else:
-        r['state_id'] = state.id
+        r['state_id'] = data.id
         new_city = City(**r)
         storage.new(new_city)
         storage.save()
