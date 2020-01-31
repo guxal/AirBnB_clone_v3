@@ -44,11 +44,11 @@ def create_amenity():
     """Create new amenity"""
     data = request.get_json(silent=True)
     if data is None:
-        abort(404, "Not a JSON")
+        abort(400, "Not a JSON")
     elif "name" not in data.keys():
-        abort(404, "Missing Name")
+        abort(400, "Missing Name")
     else:
-        new_amenity = State(**data)
+        new_amenity = Amenity(**data)
         storage.new(new_amenity)
         storage.save()
     return make_response(jsonify(new_amenity.to_dict()), 201)
@@ -63,7 +63,7 @@ def update_amenities(amenity_id=None):
 
     r = request.get_json(silent=True)
     if r is None:
-        abort(404, "Not a JSON")
+        abort(400, "Not a JSON")
     else:
         for key, value in r.items():
             if key in ['id', 'created_at', 'updated_at']:
