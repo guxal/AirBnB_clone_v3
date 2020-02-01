@@ -40,7 +40,7 @@ def delete_user_id(user_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/user', methods=['POST'])
+@app_views.route('/users', methods=['POST'])
 def create_user():
     """Create new user"""
     data = request.get_json(silent=True)
@@ -58,7 +58,7 @@ def create_user():
     return make_response(jsonify(new_user.to_dict()), 201)
 
 
-@app_views.route('/user/<user_id>', methods=['PUT'])
+@app_views.route('/users/<user_id>', methods=['PUT'])
 def update_user(user_id):
     """Update user for id"""
     data = storage.get('User', user_id)
