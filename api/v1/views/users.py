@@ -46,8 +46,10 @@ def create_user():
     data = request.get_json(silent=True)
     if data is None:
         abort(400, "Not a JSON")
-    elif "name" not in data.keys():
-        abort(400, "Missing Name")
+    elif "email" not in data.keys():
+        abort(400, "Missing email")
+    elif "password" not in data.keys():
+        abort(400, "Missing password")
     else:
         new_user = User(**data)
         storage.new(new_user)
@@ -57,7 +59,7 @@ def create_user():
 
 
 @app_views.route('/user/<user_id>', methods=['PUT'])
-def update_user(user_id=None):
+def update_user(user_id):
     """Update user for id"""
     data = storage.get('User', user_id)
     if data is None:
