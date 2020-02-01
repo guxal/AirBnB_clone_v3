@@ -53,7 +53,7 @@ def create_amenity():
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
-def update_amenities(amenity_id=None):
+def update_amenities(amenity_id):
     """Update amenity for id"""
     data = storage.get('Amenity', amenity_id)
     if data is None:
